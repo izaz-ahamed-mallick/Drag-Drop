@@ -35,7 +35,7 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     };
 
     const handleDrop = (targetContainer: keyof PageProps) => {
-        const selectItem = itemRef.current;
+        const selectItem = itemRef.current as string;
         const selectContainer = containerRef.current as keyof PageProps;
         if (selectItem && selectContainer) {
             setData((prev) => {
