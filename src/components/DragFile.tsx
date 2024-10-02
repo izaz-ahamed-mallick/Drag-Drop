@@ -24,6 +24,7 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     const handleDragStart = ({ e, item, container }: IDragStartArgument) => {
         const target = e.target as HTMLElement;
         target.style.opacity = "0.5";
+        target.style.color = "red";
 
         containerRef.current = container;
         itemRef.current = item;
