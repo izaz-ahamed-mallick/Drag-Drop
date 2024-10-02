@@ -13,7 +13,7 @@ interface InitialDataProps {
 interface IDragStartArgument {
     e: React.DragEvent<HTMLDivElement>;
     item: string;
-    container: string; // Ensure that container is one of the keys
+    container: string;
 }
 
 const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
@@ -22,8 +22,6 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     const itemRef = useRef<string | null>(null);
 
     const handleDragStart = ({ e, item, container }: IDragStartArgument) => {
-        console.log("drag");
-
         const target = e.target as HTMLElement;
         target.style.opacity = "0.5";
 
@@ -79,8 +77,8 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
                                 }
                                 onDragEnd={handleDragEnd}
                                 draggable
-                                className="bg-gray-400 my-2 px-2 mx-2 cursor-pointer"
-                                key={i} // Use item as a key if unique
+                                className="bg-gray-300 my-2 px-2 mx-2 rounded-sm cursor-pointer"
+                                key={i}
                             >
                                 {item}
                             </div>
