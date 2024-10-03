@@ -22,12 +22,9 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     const itemRef = useRef<string | null>(null);
 
     const handleDragStart = ({ e, item, container }: IDragStartArgument) => {
-        console.log("dstart");
-
         const target = e.target as HTMLElement;
         target.style.opacity = "0.5";
-        target.style.color = "red";
-
+        target.style.transform = "scale(1.1)";
         containerRef.current = container;
         itemRef.current = item;
     };
@@ -35,6 +32,7 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
         const target = e.target as HTMLElement;
         target.style.opacity = "1";
+        target.style.transform = "scale(1)"; // Reset scale effect
     };
 
     const handleDrop = (targetContainer: keyof PageProps) => {
@@ -43,11 +41,11 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
         if (selectItem && selectContainer) {
             setData((prev) => {
                 const newData = { ...prev };
-                const findindex = newData[selectContainer].findIndex(
-                    (item) => item == selectItem
+                const findIndex = newData[selectContainer].findIndex(
+                    (item) => item === selectItem
                 );
-                if (findindex !== -1) {
-                    newData[selectContainer].splice(findindex, 1);
+                if (findIndex !== -1) {
+                    newData[selectContainer].splice(findIndex, 1);
                 }
                 newData[targetContainer] = [
                     ...newData[targetContainer],
@@ -63,15 +61,17 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
     };
 
     return (
-        <div className="flex w-full justify-center gap-4">
+        <div className="flex w-full justify-center gap-8 p-6 bg-gray-100 rounded-lg shadow-lg">
             {Object.keys(data).map((container) => (
                 <div
                     onDrop={() => handleDrop(container as keyof PageProps)}
                     onDragOver={handleDragOver}
                     key={container}
-                    className="w-[200px] bg-gray-200 "
+                    className="w-64 bg-white rounded-lg shadow-md p-4 transition duration-300 hover:shadow-xl"
                 >
-                    <h1>{container}</h1>
+                    <h1 className="text-xl font-bold text-center mb-4 text-gray-700">
+                        {container}
+                    </h1>
                     {(data[container as keyof PageProps] as string[]).map(
                         (item, i) => (
                             <div
@@ -80,7 +80,7 @@ const DragFile: React.FC<InitialDataProps> = ({ initialData }) => {
                                 }
                                 onDragEnd={handleDragEnd}
                                 draggable
-                                className="bg-gray-300 my-2 px-2 mx-2 rounded-sm cursor-pointer"
+                                className="bg-blue-500 my-2 px-3 py-2 rounded-md cursor-pointer text-white shadow transition duration-200 transform hover:bg-blue-600"
                                 key={i}
                             >
                                 {item}
